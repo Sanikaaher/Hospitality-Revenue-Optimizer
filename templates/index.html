@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>HOTEL RESERVATION PREDICTION ❤️</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Hotel Reservation Prediction</h2>
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="lead_time">Lead Time</label>
+                <input type="number" id="lead_time" name="lead_time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="no_of_special_request">No. of Special Request</label>
+                <input type="number" id="no_of_special_request" name="no_of_special_request" required>
+            </div>
+
+            <div class="form-group">
+                <label for="avg_price_per_room">Average Price per Room</label>
+                <input type="number" step="0.01" id="avg_price_per_room" name="avg_price_per_room" required>
+            </div>
+
+            <div class="form-group">
+                <label for="arrival_month">Arrival Month</label>
+                <select id="arrival_month" name="arrival_month" required>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="arrival_date">Arrival Date</label>
+                <select id="arrival_date" name="arrival_date" required>
+                    {% for day in range(1, 32) %}
+                    <option value="{{ day }}">{{ day }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="market_segment_type">Market Segment Type</label>
+                <select id="market_segment_type" name="market_segment_type" required>
+                    <option value="0">Online</option>
+                    <option value="1">Offline</option>
+                    <option value="2">Corporate</option>
+                    <option value="3">Complementary</option>
+                    <option value="4">Aviation</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="no_of_week_nights">No. of Week Nights</label>
+                <input type="number" id="no_of_week_nights" name="no_of_week_nights" required>
+            </div>
+
+            <div class="form-group">
+                <label for="no_of_weekend_nights">No. of Weekend Nights</label>
+                <input type="number" id="no_of_weekend_nights" name="no_of_weekend_nights" required>
+            </div>
+
+            <div class="form-group">
+                <label for="type_of_meal_plan">Type of Meal Plan</label>
+                <select id="type_of_meal_plan" name="type_of_meal_plan" required>
+                    <option value="0">Meal Plan 1</option>
+                    <option value="1">Meal Plan 2</option>
+                    <option value="2">Meal Plan 3</option>
+                    <option value="3">Meal Plan 4</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="room_type_reserved">Room Type Reserved</label>
+                <select id="room_type_reserved" name="room_type_reserved" required>
+                    <option value="0">Room Type 1</option>
+                    <option value="1">Room Type 2</option>
+                    <option value="2">Room Type 3</option>
+                    <option value="3">Room Type 4</option>
+                    <option value="4">Room Type 5</option>
+                    <option value="5">Room Type 6</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit">Predict</button>
+            </div>
+        </form>
+
+        <hr>
+
+        {% if prediction != None %}
+        <div class="result" style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 10px;">
+            <h3>Prediction Result:</h3>
+            
+            {# Check for String Labels first #}
+            {% if prediction == 'Canceled' %}
+                <p style="color: red; font-size: 1.2rem;"><strong>Status:</strong> The person is likely to CANCEL the reservation.</p>
+            {% elif prediction == 'Not_Canceled' %}
+                <p style="color: green; font-size: 1.2rem;"><strong>Status:</strong> The person is NOT going to cancel the reservation.</p>
+            
+            {# Fallback for numeric labels if necessary #}
+            {% elif prediction == 0 or prediction == '0' %}
+                <p style="color: red; font-size: 1.2rem;"><strong>Status:</strong> The person is likely to CANCEL the reservation.</p>
+            {% elif prediction == 1 or prediction == '1' %}
+                <p style="color: green; font-size: 1.2rem;"><strong>Status:</strong> The person is NOT going to cancel the reservation.</p>
+            
+            {# Default raw display #}
+            {% else %}
+                <p><strong>Raw Model Output:</strong> {{ prediction }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>

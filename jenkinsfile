@@ -1,0 +1,13 @@
+pipeline{
+    agent any
+    stages{
+        stage('Clonig Github Repo to Jenkins'){
+            steps{
+                script{
+                    echo'Clonig Github repo to jenkins..............'
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/Sanikaaher/Hospitality-Revenue-Optimizer.git']])
+                }
+            }
+        }
+    }
+}
