@@ -153,7 +153,7 @@ class ModelTraining:
 
                 logger.info("logging the model into mlflow")
                 mlflow.log_artifact(self.model_output_path)
-                
+
                 logger.info("logging metrics and params to mlflow")
                 mlflow.log_params(best_lgbm_model.get_params())
                 mlflow.log_metrics(metrics)
